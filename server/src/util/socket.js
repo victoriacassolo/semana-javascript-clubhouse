@@ -3,7 +3,7 @@ import { Server } from 'socket.io';
 import { constants } from './constants.js';
 
 export default class SocketServer {
-  #io;
+  _io;
   constructor({ port }) {
     this.port = port;
     this.namespaces = {};
@@ -23,7 +23,7 @@ export default class SocketServer {
       for (const [namespace, { events, eventEmitter }] of Object.entries(
         routes
       )) {
-        const route = (this.namespaces[namespace] = this.#io.of(
+        const route = (this.namespaces[namespace] = this._io.of(
           `/${namespace}`
         ));
         route.on('connection', (socket) => {
@@ -48,14 +48,14 @@ export default class SocketServer {
       response.end('hey there!!');
     });
 
-    this.#io = new Server(server, {
+    this._io = new Server(server, {
       cors: {
         origin: '*',
         credentials: false,
       },
     });
 
-    // const room = this.#io.of('/room');
+    // const room = this._io.of('/room');
     // room.on('connection', (socket) => {
     //   socket.emit('userConnection', 'socket id se conectou' + socket.id);
     //   socket.on('joinRoom', (dados) => {
