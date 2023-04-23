@@ -31,9 +31,18 @@ export default class RoomController {
         return this.socketBuilder
             .setOnUserConnected(this.onUserConnected())
             .setOnUserDisconnected(this.onDisconnected())
-            .setOnRoomUpdated(this.onRoomUpdated())
+            .setOnRoomUpdated(this.onRoomUpdated()).setOnUserProfileUpgrade(this.onUserProfileUpgrade())
             .build();
+    }
 
+    onUserProfileUpgrade() {
+        return (data) => {
+            const attendee = new Attendee(data);
+            console.log('onUserProfileUpgrade', attendee);
+            if (attendee.isSpeaker) {
+                this.view.addAttendeeOnGrid(attendee, true)
+            }
+        }
     }
 
     onRoomUpdated() {
