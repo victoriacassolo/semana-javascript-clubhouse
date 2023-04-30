@@ -3,7 +3,7 @@ export default class Attendee {
         this.id = id;
         this.username = username || "usuário anônimo";
         const [firstName, lastName] = this.username.split(/\s/)
-        this.firstName = firstName
+        this.firstName = firstName + ' ' + id
         this.lastName = lastName
         this.img = img || "";
         this.isSpeaker = isSpeaker;
